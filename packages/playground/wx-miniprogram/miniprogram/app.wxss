@@ -1,0 +1,21 @@
+/**app.wxss**/
+
+page {
+  --navigator-background-color: #f2f6fa;
+  --content-background-color: #f2f6fa;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
+}
+
+button {
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0;
+  border: 0rpx !important;
+  width: auto !important;
+}
+
+text {
+  font-family: 'PingFang SC';
+}

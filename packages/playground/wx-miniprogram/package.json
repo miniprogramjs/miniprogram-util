@@ -1,0 +1,10 @@
+{
+  "name": "@miniprogram-util/wxminiprogram",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "@miniprogram-util/storage": "workspace:*"
+  }
+}

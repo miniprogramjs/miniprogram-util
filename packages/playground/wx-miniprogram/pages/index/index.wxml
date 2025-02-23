@@ -1,9 +1,0 @@
-<view class="container">
-    <input placeholder="请输入内容" bindinput="handleInput" value="{{value}}" />
-    <view class="btn-group">
-        <button bindtap="handleSave">保存</button>
-        <button bindtap="handleLoad">读取</button>
-        <button bindtap="handleClear">清除</button>
-    </view>
-    <view class="result">{{result}}</view>
-</view>

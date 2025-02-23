@@ -5,6 +5,9 @@ import {
     getOriginalKey,
     createStorageSpaceKey,
     checkStorageSpaceKey,
+    createExpirationData,
+    isExpirationData,
+    checkExpired,
 } from './utils';
 
 export interface StorageConfig {
@@ -36,66 +39,89 @@ const initializeGlobalCache = (adapter: Adapter): void => {
 
 export function createStorage(config: StorageConfig = {}, adapter: Adapter): Storage {
     const localCache = createCache();
+    const cache = createCache();
+
     const { prefix, id } = config;
 
     // 初始化全局缓存
     initializeGlobalCache(adapter);
 
     // 如果配置了id，初始化数据空间
-    let storageSpace: Record<string, unknown> = {};
     const storageSpaceKey = typeof id === 'string' ? createStorageSpaceKey(id) : '';
 
     if (storageSpaceKey) {
         const data = adapter.getItem<string>(storageSpaceKey);
 
         if (data) {
-            storageSpace = JSON.parse(data);
+            const storageSpace = JSON.parse(data);
+
+            Object.keys(storageSpace).forEach((key) => {
+                localCache.set(key, storageSpace[key]);
+            });
         }
     }
 
     function persistStorageSpace(): void {
         if (storageSpaceKey) {
-            adapter.setItem(storageSpaceKey, JSON.stringify(storageSpace));
+            adapter.setItem(storageSpaceKey, JSON.stringify(localCache.recordData()));
         }
+    }
+
+    function returnValue<T>(key: string, value: T): T | undefined {
+        if (isExpirationData(value) && checkExpired(value)) {
+            adapter.removeItem(key);
+            return;
+        }
+
+        return value;
     }
 
     return {
         getItem<T>(key: string): T | undefined {
             if (storageSpaceKey) {
-                return storageSpace[key] as T;
+                return localCache.get(key);
             }
 
             const storageKey = createStorageKey(prefix, key);
 
-            if (globalCache.has(storageKey)) {
-                return globalCache.get<T>(storageKey);
+            const cacheValue = globalCache.get<T>(storageKey);
+
+            if (cacheValue) {
+                return cacheValue;
             }
 
-            const value = adapter.getItem<T>(storageKey);
+            const value = returnValue(storageKey, adapter.getItem<T>(storageKey));
 
-            globalCache.set(storageKey, value);
+            if (value) {
+                globalCache.set(storageKey, value);
+            }
 
             return value;
         },
 
         setItem<T>(key: string, value: T, stdTTL?: number): Storage {
             if (storageSpaceKey) {
-                storageSpace[key] = value;
+                localCache.set(key, value, stdTTL);
                 persistStorageSpace();
                 return this;
             }
 
             const storageKey = createStorageKey(prefix, key);
 
-            adapter.setItem(storageKey, value);
-            globalCache.set(storageKey, value, stdTTL);
+            const data =
+                typeof stdTTL === 'number' && stdTTL > 0
+                    ? createExpirationData(stdTTL, value)
+                    : value;
+
+            adapter.setItem(storageKey, data);
+            globalCache.set(storageKey, data);
 
             return this;
         },
 
         removeItem(key: string): Storage {
             if (storageSpaceKey) {
-                delete storageSpace[key];
+                localCache.delete(key);
                 persistStorageSpace();
                 return this;
             }
@@ -115,13 +141,13 @@ export function createStorage(config: StorageConfig = {}, adapter: Adapter): Sto
 
             // 配置了id
             if (storageSpaceKey) {
-                const keys = Object.keys(storageSpace);
+                const keys = Object.keys(localCache.keys());
 
                 for (const key of keys) {
                     const result = await Promise.resolve(predicate(key));
 
                     if (result) {
-                        delete storageSpace[key];
+                        localCache.delete(key);
                     }
                 }
 
@@ -155,11 +181,11 @@ export function createStorage(config: StorageConfig = {}, adapter: Adapter): Sto
         },
 
         get keys(): string[] {
-            return id ? Object.keys(storageSpace) : adapter.keys();
+            return id ? Object.keys(localCache.keys()) : adapter.keys();
         },
 
         get cache(): Cache {
-            return localCache;
+            return cache;
         },
     };
 }

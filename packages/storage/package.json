@@ -2,6 +2,8 @@
     "name": "@miniprogram-util/storage",
     "version": "1.0.0",
     "type": "module",
+    "miniprogram": "dist",
+    "types": "./dist/index.d.ts",
     "exports": {
         ".": {
             "import": {

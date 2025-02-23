@@ -7,8 +7,5 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview"
-    },
-    "dependencies": {
-        "@miniprogram-util/storage": "workspace:*"
     }
 }

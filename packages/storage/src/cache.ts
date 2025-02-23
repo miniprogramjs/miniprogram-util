@@ -7,11 +7,13 @@ export interface Cache {
     has(key: string): boolean;
     delete(key: string): boolean;
     clear(): void;
+    keys(): Array<string>;
+    recordData(): Record<string, unknown>;
 }
 
 export const createCache = (): Cache => {
     const store = new Map<string, unknown>();
-
+    const keys = new Set<string>();
     return {
         get<T>(key: string): T | undefined {
             const data = store.get(key);
@@ -21,6 +23,7 @@ export const createCache = (): Cache => {
             }
 
             if (checkExpired(data)) {
+                store.delete(key);
                 return undefined;
             }
 
@@ -35,6 +38,8 @@ export const createCache = (): Cache => {
 
             store.set(key, data);
 
+            keys.add(key);
+
             return this;
         },
 
@@ -43,11 +48,27 @@ export const createCache = (): Cache => {
         },
 
         delete(key: string): boolean {
+            keys.delete(key);
             return store.delete(key);
         },
 
         clear(): void {
             store.clear();
+            keys.clear();
+        },
+
+        keys(): Array<string> {
+            return [...keys];
+        },
+
+        recordData(): Record<string, unknown> {
+            const storageSpace: Record<string, unknown> = {};
+
+            store.forEach((value, key) => {
+                storageSpace[key] = value;
+            });
+
+            return storageSpace;
         },
     };
 };

@@ -1,0 +1,98 @@
+{
+  "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+  "projectname": "shit",
+  "setting": {
+    "compileHotReLoad": false,
+    "skylineRenderEnable": true,
+    "urlCheck": false,
+    "lazyloadPlaceholderEnable": false
+  },
+  "libVersion": "3.4.7",
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/vue/index",
+          "pathName": "pages/vue/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/edit/index",
+          "pathName": "pages/edit/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/dataDetail/index",
+          "pathName": "pages/dataDetail/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/lanuch/index",
+          "pathName": "pages/lanuch/index",
+          "query": "pageId=find",
+          "launchMode": "default",
+          "scene": null,
+          "partialCompile": {
+            "enabled": true,
+            "pages": []
+          }
+        },
+        {
+          "name": "pages/lanuch/index",
+          "pathName": "pages/lanuch/index",
+          "query": "pageId=home",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/webview/index",
+          "pathName": "pages/webview/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/home",
+          "pathName": "pages/home",
+          "query": "name=1",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": 1129
+        },
+        {
+          "name": "plugin/index",
+          "pathName": "plugin/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index2/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

@@ -1,13 +1,13 @@
-import { createStorage } from '@miniprogram-util/storage';
+import { createStorage, wxAdapter } from '@miniprogram-util/storage';
 
 // 创建默认存储实例
-const storage = createStorage();
+const storage = createStorage({}, wxAdapter);
 
 // 创建带前缀的存储实例
-const userStorage = createStorage({ prefix: 'user' });
+const userStorage = createStorage({ prefix: 'user' }, wxAdapter);
 
 // 创建隔离的存储实例
-const settingsStorage = createStorage({ id: 'settings' });
+const settingsStorage = createStorage({ id: 'settings' }, wxAdapter);
 
 Page({
     data: {
@@ -17,8 +17,7 @@ Page({
 
     onLoad() {
         // 示例：设置带过期时间的数据
-        storage.setItem('test', 'hello world', 5000); // 5秒后过期
-
+        // storage.setItem('test', 'hello world', 5000); // 5秒后过期
         // 示例：设置用户数据
         userStorage.setItem('name', 'John');
         userStorage.setItem('age', 25);
@@ -26,6 +25,8 @@ Page({
         // 示例：设置设置数据
         settingsStorage.setItem('theme', 'dark');
         settingsStorage.setItem('language', 'zh');
+       const val = storage.getItem('test')
+       debugger
     },
 
     handleInput(e: WechatMiniprogram.Input) {
