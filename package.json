@@ -1,0 +1,32 @@
+{
+  "name": "miniprogram-util",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "pnpm -r dev",
+    "build": "pnpm run build:storage",
+    "build:storage": "cross-env PKG=storage vite build",
+    "test": "vitest",
+    "lint": "eslint --fix \"packages/*/{src,__tests__}/**/*.{ts,tsx}\"",
+    "format": "prettier --write \"packages/**/*.{ts,tsx,json,md}\"",
+    "docs:dev": "pnpm --filter ./packages/docs dev",
+    "docs:build": "pnpm --filter ./packages/docs build",
+    "publish": "tsx scripts/publish.ts"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "miniprogram-api-typings": "^3.12.2",
+    "@types/node": "^20.11.16",
+    "@vitest/ui": "^1.2.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.5",
+    "typescript": "5.3.3",
+    "vite": "^5.1.0",
+    "vitest": "^1.2.2",
+    "tsx": "^4.7.0",
+    "vite-plugin-dts": "^3.7.2",
+    "terser": "^5.27.0"
+  }
+}

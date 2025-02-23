@@ -1,0 +1,14 @@
+{
+    "name": "@miniprogram-util/docs2",
+    "private": true,
+    "version": "1.0.0",
+    "scripts": {
+        "dev": "vitepress dev src",
+        "build": "vitepress build src",
+        "preview": "vitepress preview src"
+    },
+    "devDependencies": {
+        "vitepress": "^1.0.0-rc.40",
+        "vue": "^3.4.15"
+    }
+}
