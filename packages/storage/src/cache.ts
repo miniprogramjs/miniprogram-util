@@ -37,7 +37,6 @@ export const createCache = (): Cache => {
                     : value;
 
             store.set(key, data);
-
             keys.add(key);
 
             return this;
@@ -58,7 +57,7 @@ export const createCache = (): Cache => {
         },
 
         keys(): Array<string> {
-            return [...keys];
+            return Array.from(keys);
         },
 
         recordData(): Record<string, unknown> {

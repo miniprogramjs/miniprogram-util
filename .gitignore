@@ -3,4 +3,4 @@ node_modules
 pnpm-lock.yaml
 packages/docs/src/.vitepress/cache
 miniprogram_npm
-# packages/*/dist
+packages/*/dist

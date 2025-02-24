@@ -43,7 +43,7 @@ export function createStorageKey(prefix: string | undefined, key: string): strin
     return prefix ? `${prefix}-${key}` : key;
 }
 
-const spaceKeyPrefix = 'app*space-';
+const spaceKeyPrefix = 'app*space';
 
 export const createStorageSpaceKey = (id: string): string => {
     return createStorageKey(spaceKeyPrefix, id);

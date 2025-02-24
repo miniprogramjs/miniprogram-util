@@ -13,6 +13,7 @@ import {
 export interface StorageConfig {
     prefix?: string;
     id?: string;
+    adapter: Adapter;
 }
 
 export interface Storage {
@@ -37,11 +38,17 @@ const initializeGlobalCache = (adapter: Adapter): void => {
     });
 };
 
-export function createStorage(config: StorageConfig = {}, adapter: Adapter): Storage {
+export function createStorage(config: StorageConfig): Storage {
     const localCache = createCache();
     const cache = createCache();
 
     const { prefix, id } = config;
+
+    if (!config?.adapter) {
+        throw new Error('');
+    }
+
+    const adapter = config.adapter;
 
     // 初始化全局缓存
     initializeGlobalCache(adapter);
@@ -181,7 +188,7 @@ export function createStorage(config: StorageConfig = {}, adapter: Adapter): Sto
         },
 
         get keys(): string[] {
-            return id ? Object.keys(localCache.keys()) : adapter.keys();
+            return id ? localCache.keys() : adapter.keys();
         },
 
         get cache(): Cache {
